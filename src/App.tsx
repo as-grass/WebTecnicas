@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Brain, Shield, BarChart3, FileText } from 'lucide-react';
+import { Home, Brain, Shield, BarChart3, FileText, Globe } from 'lucide-react';
+import { useLang } from './hooks/useLang';
 import LandingPage from './components/LandingPage';
 import PredictionForm from './components/PredictionForm';
 import ResultsPage from './components/ResultsPage';
@@ -35,6 +36,7 @@ interface FormData {
 }
 
 function App() {
+  const { lang, setLang, t } = useLang();
   const [currentPage, setCurrentPage] = useState<Page>('landing');
   const [formData, setFormData] = useState<FormData>({
     edad: '',
@@ -96,64 +98,41 @@ function App() {
     <div className="min-h-screen bg-gray-50 pb-20">
       {renderCurrentPage()}
       
+      {/* Language Toggle */}
+      <button
+        onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+        aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a español'}
+        className="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white border border-gray-200 shadow-lg rounded-full px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:shadow-xl transition-all"
+      >
+        <Globe size={16} className="text-blue-600" />
+        <span className={lang === 'es' ? 'text-blue-600' : 'text-gray-400'}>ES</span>
+        <span className="text-gray-300">|</span>
+        <span className={lang === 'en' ? 'text-blue-600' : 'text-gray-400'}>EN</span>
+      </button>
+
       {/* Navigation Tabs */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
         <div className="flex justify-around py-2">
-          <button
-            onClick={() => setCurrentPage('landing')}
-            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
-              currentPage === 'landing'
-                ? 'bg-blue-100 text-blue-600'
-                : 'text-gray-600 hover:text-blue-600'
-            }`}
-          >
-            <Home size={20} />
-            <span className="text-xs mt-1">Inicio</span>
-          </button>
-          <button
-            onClick={() => setCurrentPage('prediction')}
-            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
-              currentPage === 'prediction'
-                ? 'bg-blue-100 text-blue-600'
-                : 'text-gray-600 hover:text-blue-600'
-            }`}
-          >
-            <Brain size={20} />
-            <span className="text-xs mt-1">Predicción</span>
-          </button>
-          <button
-            onClick={() => setCurrentPage('results')}
-            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
-              currentPage === 'results'
-                ? 'bg-blue-100 text-blue-600'
-                : 'text-gray-600 hover:text-blue-600'
-            }`}
-          >
-            <Shield size={20} />
-            <span className="text-xs mt-1">Resultados</span>
-          </button>
-          <button
-            onClick={() => setCurrentPage('dashboard')}
-            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
-              currentPage === 'dashboard'
-                ? 'bg-blue-100 text-blue-600'
-                : 'text-gray-600 hover:text-blue-600'
-            }`}
-          >
-            <BarChart3 size={20} />
-            <span className="text-xs mt-1">Dashboard</span>
-          </button>
-          <button
-            onClick={() => setCurrentPage('legal')}
-            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
-              currentPage === 'legal'
-                ? 'bg-blue-100 text-blue-600'
-                : 'text-gray-600 hover:text-blue-600'
-            }`}
-          >
-            <FileText size={20} />
-            <span className="text-xs mt-1">Legal</span>
-          </button>
+          {([
+            { page: 'landing' as Page, icon: Home, label: t.nav.home },
+            { page: 'prediction' as Page, icon: Brain, label: t.nav.prediction },
+            { page: 'results' as Page, icon: Shield, label: t.nav.results },
+            { page: 'dashboard' as Page, icon: BarChart3, label: t.nav.dashboard },
+            { page: 'legal' as Page, icon: FileText, label: t.nav.legal }
+          ]).map(({ page, icon: Icon, label }) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all ${
+                currentPage === page
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
+              <Icon size={20} />
+              <span className="text-xs mt-1">{label}</span>
+            </button>
+          ))}
         </div>
       </div>
     </div>

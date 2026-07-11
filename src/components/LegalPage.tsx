@@ -1,35 +1,38 @@
 import React from 'react';
 import { Shield, FileText, Lock, Info, Phone } from 'lucide-react';
+import { useLang } from '../hooks/useLang';
 
 export default function LegalPage() {
+  const { t } = useLang();
+
   const sections = [
     {
       id: 'disclaimer',
-      title: 'Disclaimer Médico',
+      title: t.legal.sectionDisclaimer,
       icon: Shield,
       color: 'red'
     },
     {
       id: 'terms',
-      title: 'Términos de Uso',
+      title: t.legal.sectionTerms,
       icon: FileText,
       color: 'blue'
     },
     {
       id: 'privacy',
-      title: 'Política de Privacidad',
+      title: t.legal.sectionPrivacy,
       icon: Lock,
       color: 'green'
     },
     {
       id: 'model',
-      title: 'Información del Modelo',
+      title: t.legal.sectionModel,
       icon: Info,
       color: 'purple'
     },
     {
       id: 'contact',
-      title: 'Contacto y Soporte',
+      title: t.legal.sectionContact,
       icon: Phone,
       color: 'orange'
     }
@@ -41,37 +44,34 @@ export default function LegalPage() {
         return (
           <div className="space-y-4">
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <h4 className="font-semibold text-red-800 mb-2">⚠️ IMPORTANTE - LEER ANTES DE USAR</h4>
+              <h4 className="font-semibold text-red-800 mb-2">{t.legal.importantTitle}</h4>
               <p className="text-red-700">
-                Este sistema es ÚNICAMENTE una herramienta de apoyo para decisiones clínicas.
-                NO constituye un diagnóstico médico ni reemplaza la evaluación profesional.
+                {t.legal.importantText}
               </p>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Limitaciones del Sistema</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.limitationsTitle}</h4>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Los resultados son probabilísticos y deben interpretarse por personal médico calificado</li>
-              <li>No considera factores clínicos específicos no incluidos en las 23 variables del modelo</li>
-              <li>Requiere supervisión y validación por parte de profesionales en salud mental</li>
-              <li>No debe utilizarse como único criterio para tomar decisiones clínicas</li>
+              <li>{t.legal.limitation1}</li>
+              <li>{t.legal.limitation2}</li>
+              <li>{t.legal.limitation3}</li>
+              <li>{t.legal.limitation4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Responsabilidad Profesional</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.responsibilityTitle}</h4>
             <p className="text-gray-700">
-              El médico tratante mantiene la responsabilidad completa sobre el diagnóstico, 
-              tratamiento y seguimiento del paciente. Este sistema proporciona información 
-              complementaria que debe ser evaluada en el contexto clínico integral del caso.
+              {t.legal.responsibilityText}
             </p>
-            
-            <h4 className="font-semibold text-gray-900">Situaciones de Emergencia</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.emergencyTitle}</h4>
             <p className="text-gray-700 font-medium">
-              En casos de riesgo inminente o emergencias psiquiátricas, contacte inmediatamente:
+              {t.legal.emergencyText}
             </p>
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-2">
               <ul className="text-yellow-800 space-y-1">
-                <li>• Línea de Crisis: 123 (24 horas)</li>
-                <li>• Servicios de Urgencias del hospital más cercano</li>
-                <li>• No dependa exclusivamente de este sistema para decisiones urgentes</li>
+                <li>{t.legal.emergencyLine1}</li>
+                <li>{t.legal.emergencyLine2}</li>
+                <li>{t.legal.emergencyLine3}</li>
               </ul>
             </div>
           </div>
@@ -80,34 +80,31 @@ export default function LegalPage() {
       case 'terms':
         return (
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Condiciones de Uso</h4>
+            <h4 className="font-semibold text-gray-900">{t.legal.conditionsTitle}</h4>
             <ul className="list-decimal list-inside space-y-2 text-gray-700">
-              <li>Este sistema está destinado exclusivamente para profesionales de la salud</li>
-              <li>Se requiere licencia médica vigente para el uso clínico de los resultados</li>
-              <li>Prohibido el uso para propósitos no médicos o de investigación sin autorización</li>
-              <li>Los usuarios son responsables de mantener la confidencialidad de los datos del paciente</li>
-              <li>Se debe cumplir con todas las normativas locales e internacionales de salud</li>
+              <li>{t.legal.condition1}</li>
+              <li>{t.legal.condition2}</li>
+              <li>{t.legal.condition3}</li>
+              <li>{t.legal.condition4}</li>
+              <li>{t.legal.condition5}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Limitaciones de Responsabilidad</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.liabilityTitle}</h4>
             <p className="text-gray-700">
-              El sistema se proporciona "tal como está" sin garantías de ningún tipo. 
-              No nos hacemos responsables por decisiones clínicas tomadas basándose 
-              únicamente en los resultados del sistema.
+              {t.legal.liabilityText}
             </p>
-            
-            <h4 className="font-semibold text-gray-900">Uso Apropiado</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.appropriateUseTitle}</h4>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Utilice como herramienta de apoyo complementaria</li>
-              <li>Combine siempre con evaluación clínica integral</li>
-              <li>Documente el uso del sistema en la historia clínica</li>
-              <li>Mantenga registros de las evaluaciones realizadas</li>
+              <li>{t.legal.appropriateUse1}</li>
+              <li>{t.legal.appropriateUse2}</li>
+              <li>{t.legal.appropriateUse3}</li>
+              <li>{t.legal.appropriateUse4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Actualizaciones y Modificaciones</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.updatesTitle}</h4>
             <p className="text-gray-700">
-              Nos reservamos el derecho de actualizar estos términos y las funcionalidades 
-              del sistema. Los usuarios serán notificados de cambios significativos.
+              {t.legal.updatesText}
             </p>
           </div>
         );
@@ -115,46 +112,43 @@ export default function LegalPage() {
       case 'privacy':
         return (
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Manejo de Datos del Paciente</h4>
+            <h4 className="font-semibold text-gray-900">{t.legal.dataHandlingTitle}</h4>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-green-700">
-                <strong>Compromiso de Privacidad:</strong> Todos los datos ingresados son procesados 
-                de forma local y no se almacenan en servidores externos sin consentimiento explícito.
+                <strong>{t.legal.privacyCommitmentLabel}</strong>{t.legal.privacyCommitmentText}
               </p>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Recolección de Información</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.dataCollectionTitle}</h4>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Solo recolectamos las 23 variables necesarias para el modelo predictivo</li>
-              <li>No almacenamos información personal identificable sin autorización</li>
-              <li>Los datos se procesan de forma anónima y agregada para estadísticas</li>
-              <li>Cumplimos con estándares HIPAA y normativas locales de protección de datos</li>
+              <li>{t.legal.dataCollection1}</li>
+              <li>{t.legal.dataCollection2}</li>
+              <li>{t.legal.dataCollection3}</li>
+              <li>{t.legal.dataCollection4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Derechos del Usuario</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.userRightsTitle}</h4>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Derecho a conocer qué datos se procesan</li>
-              <li>Derecho a solicitar eliminación de datos almacenados</li>
-              <li>Derecho a rectificación de información incorrecta</li>
-              <li>Derecho a portabilidad de los datos</li>
+              <li>{t.legal.userRight1}</li>
+              <li>{t.legal.userRight2}</li>
+              <li>{t.legal.userRight3}</li>
+              <li>{t.legal.userRight4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Seguridad de Datos</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.dataSecurityTitle}</h4>
             <p className="text-gray-700">
-              Implementamos medidas técnicas y organizacionales para proteger la información:
+              {t.legal.dataSecurityIntro}
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
-              <li>Encriptación de datos en tránsito y reposo</li>
-              <li>Acceso controlado y autenticación de usuarios</li>
-              <li>Auditorías regulares de seguridad</li>
-              <li>Respaldo y recuperación de datos seguros</li>
+              <li>{t.legal.security1}</li>
+              <li>{t.legal.security2}</li>
+              <li>{t.legal.security3}</li>
+              <li>{t.legal.security4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Compartir Información</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.sharingTitle}</h4>
             <p className="text-gray-700">
-              No compartimos datos personales de pacientes con terceros sin consentimiento 
-              explícito, excepto cuando sea requerido por ley o para fines de investigación 
-              médica aprobados por comités de ética.
+              {t.legal.sharingText}
             </p>
           </div>
         );
@@ -162,37 +156,36 @@ export default function LegalPage() {
       case 'model':
         return (
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Metodología Stacking Classifier</h4>
+            <h4 className="font-semibold text-gray-900">{t.legal.methodologyTitle}</h4>
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
               <p className="text-purple-700">
-                <strong>Técnica Avanzada:</strong> Combina múltiples algoritmos de machine learning 
-                para maximizar la precisión predictiva y minimizar errores de clasificación.
+                <strong>{t.legal.advancedTechniqueLabel}</strong>{t.legal.advancedTechniqueText}
               </p>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Dataset y Variables</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.datasetTitle}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h5 className="font-medium text-gray-800 mb-2">Datos de Entrenamiento</h5>
+                <h5 className="font-medium text-gray-800 mb-2">{t.legal.trainingDataTitle}</h5>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• 487 casos reales validados</li>
-                  <li>• 3 clústeres K-Means optimizados</li>
-                  <li>• Validación cruzada 10-fold</li>
-                  <li>• Balanceo de clases aplicado</li>
+                  <li>{t.legal.trainingData1}</li>
+                  <li>{t.legal.trainingData2}</li>
+                  <li>{t.legal.trainingData3}</li>
+                  <li>{t.legal.trainingData4}</li>
                 </ul>
               </div>
               <div>
-                <h5 className="font-medium text-gray-800 mb-2">Variables del Modelo</h5>
+                <h5 className="font-medium text-gray-800 mb-2">{t.legal.modelVariablesTitle}</h5>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• 6 variables demográficas</li>
-                  <li>• 7 factores sociales/relacionales</li>
-                  <li>• 8 condiciones de salud mental</li>
-                  <li>• 2 variables de método/historial</li>
+                  <li>{t.legal.modelVariables1}</li>
+                  <li>{t.legal.modelVariables2}</li>
+                  <li>{t.legal.modelVariables3}</li>
+                  <li>{t.legal.modelVariables4}</li>
                 </ul>
               </div>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Métricas de Rendimiento</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.performanceTitle}</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-3 bg-green-50 rounded-lg">
                 <div className="text-xl font-bold text-green-600">96%</div>
@@ -204,27 +197,25 @@ export default function LegalPage() {
               </div>
               <div className="text-center p-3 bg-purple-50 rounded-lg">
                 <div className="text-xl font-bold text-purple-600">94%</div>
-                <div className="text-sm text-purple-700">Precisión</div>
+                <div className="text-sm text-purple-700">{t.legal.precisionLabel}</div>
               </div>
               <div className="text-center p-3 bg-orange-50 rounded-lg">
                 <div className="text-xl font-bold text-orange-600">0.92</div>
                 <div className="text-sm text-orange-700">AUC-ROC</div>
               </div>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Limitaciones del Modelo</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.modelLimitationsTitle}</h4>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Entrenado con población específica (puede requerir calibración para otras poblaciones)</li>
-              <li>No incluye variables de neuroimagen o biomarcadores</li>
-              <li>Requiere actualización periódica con nuevos datos</li>
-              <li>Sensible a calidad y completitud de los datos de entrada</li>
+              <li>{t.legal.modelLimitation1}</li>
+              <li>{t.legal.modelLimitation2}</li>
+              <li>{t.legal.modelLimitation3}</li>
+              <li>{t.legal.modelLimitation4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Validación Clínica</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.clinicalValidationTitle}</h4>
             <p className="text-gray-700">
-              El modelo ha sido validado en estudios retrospectivos y requiere validación 
-              prospectiva continua. Se recomienda monitoreo regular del rendimiento en 
-              condiciones clínicas reales.
+              {t.legal.clinicalValidationText}
             </p>
           </div>
         );
@@ -232,70 +223,67 @@ export default function LegalPage() {
       case 'contact':
         return (
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Información de Contacto</h4>
+            <h4 className="font-semibold text-gray-900">{t.legal.contactInfoTitle}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <h5 className="font-semibold text-orange-800 mb-3">Soporte Técnico</h5>
+                <h5 className="font-semibold text-orange-800 mb-3">{t.legal.techSupportTitle}</h5>
                 <div className="space-y-2 text-orange-700">
-                  <p><strong>Email:</strong> soporte@prediccionpsiquiatria.com</p>
-                  <p><strong>Teléfono:</strong> +57 (1) 234-5678</p>
-                  <p><strong>Horario:</strong> Lunes a Viernes, 8:00 AM - 6:00 PM</p>
-                  <p><strong>Respuesta:</strong> 24-48 horas</p>
+                  <p><strong>{t.legal.emailLabel}</strong> soporte@prediccionpsiquiatria.com</p>
+                  <p><strong>{t.legal.phoneLabel}</strong> +57 (1) 234-5678</p>
+                  <p><strong>{t.legal.scheduleLabel}</strong> {t.legal.techSchedule}</p>
+                  <p><strong>{t.legal.responseLabel}</strong> {t.legal.techResponse}</p>
                 </div>
               </div>
-              
+
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h5 className="font-semibold text-blue-800 mb-3">Consultas Clínicas</h5>
+                <h5 className="font-semibold text-blue-800 mb-3">{t.legal.clinicalInquiriesTitle}</h5>
                 <div className="space-y-2 text-blue-700">
-                  <p><strong>Email:</strong> clinico@prediccionpsiquiatria.com</p>
-                  <p><strong>Teléfono:</strong> +57 (1) 234-5679</p>
-                  <p><strong>Horario:</strong> 24/7 para emergencias</p>
-                  <p><strong>Respuesta:</strong> Inmediata para urgencias</p>
+                  <p><strong>{t.legal.emailLabel}</strong> clinico@prediccionpsiquiatria.com</p>
+                  <p><strong>{t.legal.phoneLabel}</strong> +57 (1) 234-5679</p>
+                  <p><strong>{t.legal.scheduleLabel}</strong> {t.legal.clinicalSchedule}</p>
+                  <p><strong>{t.legal.responseLabel}</strong> {t.legal.clinicalResponse}</p>
                 </div>
               </div>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Reportar Problemas</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.reportProblemsTitle}</h4>
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <p className="text-yellow-800 mb-3">
-                <strong>Para reportar problemas técnicos o errores del sistema:</strong>
+                <strong>{t.legal.reportProblemsIntro}</strong>
               </p>
               <ul className="list-disc list-inside space-y-1 text-yellow-700">
-                <li>Describa el problema con detalle</li>
-                <li>Incluya pasos para reproducir el error</li>
-                <li>Adjunte capturas de pantalla si es posible</li>
-                <li>Proporcione información del navegador/dispositivo</li>
+                <li>{t.legal.report1}</li>
+                <li>{t.legal.report2}</li>
+                <li>{t.legal.report3}</li>
+                <li>{t.legal.report4}</li>
               </ul>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Capacitación y Entrenamiento</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.trainingTitle}</h4>
             <p className="text-gray-700">
-              Ofrecemos sesiones de capacitación para equipos médicos sobre el uso 
-              apropiado del sistema y interpretación de resultados.
+              {t.legal.trainingText}
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Workshops presenciales y virtuales</li>
-              <li>Materiales de capacitación descargables</li>
-              <li>Certificación en uso del sistema</li>
-              <li>Consultoría en implementación</li>
+              <li>{t.legal.training1}</li>
+              <li>{t.legal.training2}</li>
+              <li>{t.legal.training3}</li>
+              <li>{t.legal.training4}</li>
             </ul>
-            
-            <h4 className="font-semibold text-gray-900">Investigación y Colaboraciones</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.researchTitle}</h4>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-green-700">
-                <strong>Para propuestas de investigación o colaboraciones académicas:</strong><br />
+                <strong>{t.legal.researchIntro}</strong><br />
                 investigacion@prediccionpsiquiatria.com
               </p>
               <p className="text-sm text-green-600 mt-2">
-                Estamos interesados en colaboraciones para mejorar el modelo y 
-                expandir su aplicación a diferentes poblaciones.
+                {t.legal.researchNote}
               </p>
             </div>
-            
-            <h4 className="font-semibold text-gray-900">Actualizaciones del Sistema</h4>
+
+            <h4 className="font-semibold text-gray-900">{t.legal.systemUpdatesTitle}</h4>
             <p className="text-gray-700">
-              Para recibir notificaciones sobre actualizaciones, nuevas funcionalidades 
-              y boletines de investigación, suscríbase a nuestra lista de correos en:
+              {t.legal.systemUpdatesText}
             </p>
             <p className="font-medium text-blue-600">actualizaciones@prediccionpsiquiatria.com</p>
           </div>
@@ -311,9 +299,9 @@ export default function LegalPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Información Legal y Soporte</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.legal.title}</h1>
           <p className="text-gray-600">
-            Términos de uso, políticas de privacidad y información importante sobre el sistema
+            {t.legal.subtitle}
           </p>
         </div>
 
@@ -338,13 +326,13 @@ export default function LegalPage() {
         <div className="bg-gray-800 text-white rounded-lg p-6 mt-8">
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-2">
-              Sistema de Predicción de Remisión a Psiquiatría
+              {t.legal.footerTitle}
             </h3>
             <p className="text-gray-300 text-sm">
-              Modelo Stacking Classifier - F1-Score 96% - Versión 1.0
+              {t.legal.footerModel}
             </p>
             <p className="text-gray-400 text-xs mt-2">
-              © 2025 - Todos los derechos reservados - Uso exclusivo para profesionales de la salud
+              {t.legal.footerCopyright}
             </p>
           </div>
         </div>

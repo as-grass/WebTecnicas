@@ -1,5 +1,6 @@
 import React from 'react';
 import { Download, Share2, RotateCcw, BarChart3, Clock, AlertTriangle, CheckCircle, Target } from 'lucide-react';
+import { useLang } from '../hooks/useLang';
 
 interface FormData {
   edad: string;
@@ -34,7 +35,11 @@ interface ResultsPageProps {
 }
 
 export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard }: ResultsPageProps) {
-  // Calculate prediction based on form data
+  const { lang, t, tv } = useLang();
+
+  // Calculate prediction based on form data.
+  // Internal risk-level values ('Alto' | 'Moderado' | 'Bajo') are kept in
+  // Spanish because they drive the logic; only labels are translated.
   const calculatePrediction = () => {
     let score = 0;
     const riskFactors = [];
@@ -43,46 +48,46 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
     const age = parseInt(formData.edad);
     if (age < 25) {
       score += 15;
-      riskFactors.push('Edad joven (< 25 años)');
+      riskFactors.push(t.results.factorYoungAge);
     }
 
     // Previous attempts
     const attempts = parseInt(formData.intentosPrevios);
     if (attempts > 0) {
       score += 20;
-      riskFactors.push('Intentos previos');
+      riskFactors.push(t.results.factorPreviousAttempts);
     }
 
     // Mental health conditions
     if (formData.trastornoDepresivo === 'SI') {
       score += 15;
-      riskFactors.push('Trastorno depresivo presente');
+      riskFactors.push(t.results.factorDepressive);
     }
     if (formData.ideacionSuicida === 'SI') {
       score += 18;
-      riskFactors.push('Ideación suicida persistente');
+      riskFactors.push(t.results.factorSuicidalIdeation);
     }
     if (formData.consumoSPA === 'SI') {
       score += 12;
-      riskFactors.push('Consumo de sustancias');
+      riskFactors.push(t.results.factorSubstanceUse);
     }
     if (formData.antecedentesFamiliares === 'SI') {
       score += 10;
-      riskFactors.push('Antecedentes familiares');
+      riskFactors.push(t.results.factorFamilyHistory);
     }
 
     // Social factors
     if (formData.problemasFamiliares === 'SI') {
       score += 8;
-      riskFactors.push('Problemas familiares');
+      riskFactors.push(t.results.factorFamilyProblems);
     }
     if (formData.conflictoPareja === 'SI') {
       score += 7;
-      riskFactors.push('Conflicto pareja');
+      riskFactors.push(t.results.factorPartnerConflict);
     }
     if (formData.antecedenteViolencia === 'SI') {
       score += 10;
-      riskFactors.push('Antecedentes violencia');
+      riskFactors.push(t.results.factorViolenceHistory);
     }
 
     // High lethality methods
@@ -99,7 +104,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
   };
 
   const result = calculatePrediction();
-  const currentTime = new Date().toLocaleString('es-ES');
+  const currentTime = new Date().toLocaleString(lang === 'es' ? 'es-ES' : 'en-US');
 
   const getRiskColor = (level: string) => {
     switch (level) {
@@ -112,11 +117,11 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
 
   const getRiskRecommendation = (level: string, probability: number) => {
     if (level === 'Alto' || probability > 70) {
-      return 'Remisión inmediata a psiquiatría recomendada. Considere hospitalización y seguimiento intensivo.';
+      return t.results.recommendationHigh;
     } else if (level === 'Moderado' || probability > 40) {
-      return 'Remisión a psiquiatría dentro de 24-48 horas. Establecer plan de seguridad y seguimiento.';
+      return t.results.recommendationModerate;
     } else {
-      return 'Evaluación psicológica ambulatoria recomendada. Monitoreo continuo de factores de riesgo.';
+      return t.results.recommendationLow;
     }
   };
 
@@ -127,7 +132,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Resultados de Predicción</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.results.title}</h1>
               <div className="flex items-center text-gray-600">
                 <Clock size={16} className="mr-2" />
                 <span>{currentTime}</span>
@@ -136,11 +141,11 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
             <div className="flex gap-3">
               <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all">
                 <Download size={16} className="mr-2" />
-                Exportar
+                {t.results.export}
               </button>
               <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all">
                 <Share2 size={16} className="mr-2" />
-                Compartir
+                {t.results.share}
               </button>
             </div>
           </div>
@@ -153,10 +158,10 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
               {result.probability}%
             </div>
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-              Probabilidad de Remisión
+              {t.results.probabilityTitle}
             </h2>
             <div className={`inline-block px-4 py-2 rounded-full text-lg font-medium ${getRiskColor(result.riskLevel)}`}>
-              Nivel de Riesgo: {result.riskLevel}
+              {t.results.riskLevelLabel} {t.riskLevels[result.riskLevel]}
             </div>
           </div>
 
@@ -189,7 +194,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
                 result.riskLevel === 'Moderado' ? 'text-yellow-600' : 'text-green-600'
               }`} size={20} />
               <div>
-                <h4 className="font-semibold mb-1">Recomendación Clínica</h4>
+                <h4 className="font-semibold mb-1">{t.results.recommendationTitle}</h4>
                 <p className="text-sm">{getRiskRecommendation(result.riskLevel, result.probability)}</p>
               </div>
             </div>
@@ -202,21 +207,20 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold mb-4 flex items-center">
               <Target className="mr-2 text-blue-600" size={24} />
-              Métricas del Modelo
+              {t.results.modelMetricsTitle}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <div className="text-2xl font-bold text-green-600">96%</div>
-                <div className="text-sm text-green-700">F1-Score</div>
+                <div className="text-sm text-green-700">{t.results.f1Score}</div>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <div className="text-2xl font-bold text-blue-600">100%</div>
-                <div className="text-sm text-blue-700">Recall</div>
+                <div className="text-sm text-blue-700">{t.results.recall}</div>
               </div>
             </div>
             <p className="text-sm text-gray-600 mt-4">
-              Stacking Classifier entrenado con dataset real de 487 casos.
-              Combina múltiples algoritmos para maximizar precisión predictiva.
+              {t.results.modelMetricsText}
             </p>
           </div>
 
@@ -224,7 +228,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h3 className="text-xl font-semibold mb-4 flex items-center">
               <AlertTriangle className="mr-2 text-red-600" size={24} />
-              Factores de Riesgo Identificados
+              {t.results.riskFactorsTitle}
             </h3>
             <div className="space-y-2">
               {result.riskFactors.length > 0 ? (
@@ -235,7 +239,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500">No se identificaron factores de riesgo significativos</p>
+                <p className="text-gray-500">{t.results.noRiskFactors}</p>
               )}
             </div>
           </div>
@@ -245,34 +249,34 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h3 className="text-xl font-semibold mb-6 flex items-center">
             <CheckCircle className="mr-2 text-green-600" size={24} />
-            Resumen del Caso
+            {t.results.caseSummaryTitle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h4 className="font-semibold text-blue-700 mb-3">Demografía</h4>
+              <h4 className="font-semibold text-blue-700 mb-3">{t.results.demographics}</h4>
               <div className="space-y-2 text-sm">
-                <p><strong>Edad:</strong> {formData.edad} años</p>
-                <p><strong>Sexo:</strong> {formData.sexo}</p>
-                <p><strong>Estrato:</strong> {formData.estrato}</p>
-                <p><strong>Estado Civil:</strong> {formData.estadoCivil}</p>
+                <p><strong>{t.shortLabels.edad}:</strong> {formData.edad} {t.common.years}</p>
+                <p><strong>{t.shortLabels.sexo}:</strong> {tv(formData.sexo)}</p>
+                <p><strong>{t.shortLabels.estrato}:</strong> {formData.estrato}</p>
+                <p><strong>{t.shortLabels.estadoCivil}:</strong> {tv(formData.estadoCivil)}</p>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-purple-700 mb-3">Clínico</h4>
+              <h4 className="font-semibold text-purple-700 mb-3">{t.results.clinical}</h4>
               <div className="space-y-2 text-sm">
-                <p><strong>Método:</strong> {formData.metodoSuicidio}</p>
-                <p><strong>Intentos Previos:</strong> {formData.intentosPrevios}</p>
-                <p><strong>Trastorno Depresivo:</strong> {formData.trastornoDepresivo}</p>
-                <p><strong>Ideación Suicida:</strong> {formData.ideacionSuicida}</p>
+                <p><strong>{t.shortLabels.metodo}:</strong> {tv(formData.metodoSuicidio)}</p>
+                <p><strong>{t.shortLabels.intentosPrevios}:</strong> {formData.intentosPrevios}</p>
+                <p><strong>{t.shortLabels.trastornoDepresivo}:</strong> {tv(formData.trastornoDepresivo)}</p>
+                <p><strong>{t.shortLabels.ideacionSuicida}:</strong> {tv(formData.ideacionSuicida)}</p>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-red-700 mb-3">Factores de Riesgo</h4>
+              <h4 className="font-semibold text-red-700 mb-3">{t.results.riskFactors}</h4>
               <div className="space-y-2 text-sm">
-                <p><strong>Consumo SPA:</strong> {formData.consumoSPA}</p>
-                <p><strong>Problemas Familiares:</strong> {formData.problemasFamiliares}</p>
-                <p><strong>Conflicto Pareja:</strong> {formData.conflictoPareja}</p>
-                <p><strong>Antecedentes Violencia:</strong> {formData.antecedenteViolencia}</p>
+                <p><strong>{t.shortLabels.consumoSPA}:</strong> {tv(formData.consumoSPA)}</p>
+                <p><strong>{t.shortLabels.problemasFamiliares}:</strong> {tv(formData.problemasFamiliares)}</p>
+                <p><strong>{t.shortLabels.conflictoPareja}:</strong> {tv(formData.conflictoPareja)}</p>
+                <p><strong>{t.shortLabels.antecedenteViolencia}:</strong> {tv(formData.antecedenteViolencia)}</p>
               </div>
             </div>
           </div>
@@ -280,7 +284,7 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
 
         {/* Variables Grid */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h3 className="text-xl font-semibold mb-6">Variables del Modelo (23 factores)</h3>
+          <h3 className="text-xl font-semibold mb-6">{t.results.variablesTitle}</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {Object.entries(formData).map(([key, value]) => (
               <div
@@ -289,10 +293,10 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
                   value === 'SI' ? 'bg-red-100 text-red-800 font-medium' : 'bg-gray-100 text-gray-700'
                 }`}
               >
-                <div className="font-medium capitalize">
-                  {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+                <div className="font-medium">
+                  {t.fields[key] ?? key}
                 </div>
-                <div className="text-xs mt-1">{value || 'No especificado'}</div>
+                <div className="text-xs mt-1">{value ? tv(value) : t.common.notSpecified}</div>
               </div>
             ))}
           </div>
@@ -305,25 +309,22 @@ export default function ResultsPage({ formData, onNewEvaluation, onViewDashboard
             className="flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
           >
             <RotateCcw size={20} className="mr-2" />
-            Nueva Evaluación
+            {t.results.newEvaluation}
           </button>
           <button
             onClick={onViewDashboard}
             className="flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all"
           >
             <BarChart3 size={20} className="mr-2" />
-            Ver Dashboard
+            {t.results.viewDashboard}
           </button>
         </div>
 
         {/* Disclaimer */}
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h4 className="font-semibold text-yellow-800 mb-2">⚠️ Disclaimer Médico</h4>
+          <h4 className="font-semibold text-yellow-800 mb-2">{t.results.disclaimerTitle}</h4>
           <p className="text-sm text-yellow-700">
-            Este sistema es una herramienta de apoyo para decisiones clínicas y NO reemplaza el juicio médico profesional.
-            Los resultados deben interpretarse por personal de salud calificado. Siempre considere la evaluación clínica
-            integral del paciente y las circunstancias específicas del caso. En situaciones de emergencia, contacte
-            inmediatamente a los servicios de salud mental de urgencias.
+            {t.results.disclaimerText}
           </p>
         </div>
       </div>
